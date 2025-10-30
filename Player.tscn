@@ -50,6 +50,13 @@ camera = NodePath("../Camera3D")
 [node name="VBoxContainer" type="VBoxContainer" parent="UI"]
 layout_mode = 2
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "WASD -> Movimetação | Shift -> Corrida | Espaço -> Pulo | Espaço (Ar e próximo de parede) -> WallJump"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer"]
 layout_mode = 2
 

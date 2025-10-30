@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=3 uid="uid://l85c3rle5ady"]
+
+[ext_resource type="PackedScene" uid="uid://cx2sn5fwmkrtq" path="res://Player.tscn" id="1_ig7tw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_7dm0k"]
+
+[node name="Main" type="Node3D"]
+metadata/_edit_group_ = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h2yge")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_7dm0k")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+size = Vector3(16, 1, 16)
+
+[node name="Holed Wall" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.226, 7.4796925)
+size = Vector3(16, 6, 1)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/Holed Wall"]
+transform = Transform3D(3.5995162, 0, 0, 0, -4.3711385e-08, 3.5995162, 0, -0.9999999, -1.5733985e-07, 0.10886145, 0, 0)
+operation = 2
+
+[node name="Cracked wall" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, -2)
+size = Vector3(14, 4, 5)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D/Cracked wall"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.5469724, 2.1438742, 2.6431546)
+operation = 2
+polygon = PackedVector2Array(0.17396617, 1.7185569, -0.3259001, 1.2368307, -0.06879485, 0.8286294, 0.10831976, 0.54006296, -0.11609149, 0.09984028, -0.33280763, 0.08901882, -0.12756002, 0.40308958, -0.35838747, 0.5241378, -0.18086845, 0.668239, -0.44075406, 1.0662825, -0.657082, 1.5233889, -0.065693736, 1.7530948, 0.17258132, 2.0048914, 1.0898544, 1.4787883, 1.141363, 2.8284302, 1.3732234, 2.8070138, 1.4794258, 2.9644823, 1.6091961, 3.5626028, 1.1046025, 4.244299, 0.5520878, 5.2883863, 1.080499, 5.2430334, 1.155542, 4.551842, 1.6050037, 3.763212, 1.7718359, 3.4622817, 1.5978678, 2.791515, 1.2292026, 2.6037922, 1.3121861, 1.4145952, 0.9082519, 1.243241)
+depth = 4.5
+
+[node name="Hell" parent="." instance=ExtResource("1_ig7tw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7016687, 4.8881845, 1.7920055)
+jump_speed = 5.0
+jump_height = 10.0
+jump_friction_on_air = 0.82
+sprint_speed = 5.0
+vel_base_speed = 6.0
+vel_acceleration = 10.0
+vel_slow = 0.93
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7722238, 0.6353507, 0, -0.6353507, 0.7722238, 7.325832, 6.5584116, 6.488556)

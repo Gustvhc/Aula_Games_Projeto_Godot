@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx2sn5fwmkrtq"]
+
+[ext_resource type="Script" uid="uid://dh1lcj4257de4" path="res://player.gd" id="1_xhfnw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0rwas"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0rwas"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("body")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+script = ExtResource("1_xhfnw")
+body = NodePath("Body")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0rwas")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_0rwas")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.3711395e-09, 0, -0.1, 0, 0.1, 0, 0.1, 0, -4.3711395e-09, 0, 0.77336895, 0)
+
+[node name="RayLeft" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -1)
+hit_from_inside = true
+debug_shape_custom_color = Color(1.3430698, 1.3655106, 0, 1)
+debug_shape_thickness = 5
+
+[node name="RayRight" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 1)
+hit_from_inside = true
+debug_shape_custom_color = Color(1.3430698, 1.3655106, 0, 1)
+debug_shape_thickness = 5

@@ -127,7 +127,7 @@ func get_move_input(delta: float):
 	if not is_on_floor():
 		xz *= jump_friction_on_air
 		
-	var direction = Vector3(xz.x,0,xz.y).rotated(Vector3.UP,body.rotation.y)
+	var direction = Vector3(xz.x,0,xz.y).rotated(Vector3.UP,self.rotation.y)
 	
 	
 	if xz != Vector2.ZERO:

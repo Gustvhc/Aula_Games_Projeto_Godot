@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cx2sn5fwmkrtq"]
+[gd_scene load_steps=5 format=3 uid="uid://cx2sn5fwmkrtq"]
 
 [ext_resource type="Script" uid="uid://dh1lcj4257de4" path="res://player.gd" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://k2cmeplebbsm" path="res://ui_controller.gd" id="2_kpjcp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0rwas"]
 
@@ -31,3 +32,50 @@ target_position = Vector3(0, 0, 1)
 hit_from_inside = true
 debug_shape_custom_color = Color(1.3430698, 1.3655106, 0, 1)
 debug_shape_thickness = 5
+
+[node name="UI" type="MarginContainer" parent="." node_paths=PackedStringArray("player", "speed", "angle", "camera")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+script = ExtResource("2_kpjcp")
+player = NodePath("..")
+speed = NodePath("VBoxContainer/HBoxContainer/Speed")
+angle = NodePath("VBoxContainer/HBoxContainer2/Angle")
+camera = NodePath("../Camera3D")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="UI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Speed: "
+
+[node name="Speed" type="Label" parent="UI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="CameraAngle" type="Label" parent="UI/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Angle: "
+
+[node name="Angle" type="Label" parent="UI/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "0"

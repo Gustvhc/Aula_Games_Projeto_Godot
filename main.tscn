@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://l85c3rle5ady"]
+[gd_scene load_steps=7 format=3 uid="uid://l85c3rle5ady"]
 
+[ext_resource type="Script" uid="uid://de6e8l1njpspv" path="res://ControllerScript.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cx2sn5fwmkrtq" path="res://Player.tscn" id="1_ig7tw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
@@ -17,7 +18,10 @@ glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_7dm0k"]
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" node_paths=PackedStringArray("player", "reset_pos")]
+script = ExtResource("1_0xm2m")
+player = NodePath("Hell")
+reset_pos = NodePath("ResetPos")
 metadata/_edit_group_ = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -35,7 +39,8 @@ mesh = SubResource("BoxMesh_7dm0k")
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
-size = Vector3(16, 1, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.236557, 0, 0.8257446)
+size = Vector3(30.813873, 1, 49.303833)
 
 [node name="Holed Wall" type="CSGBox3D" parent="CSGCombiner3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.226, 7.4796925)
@@ -58,7 +63,8 @@ depth = 4.5
 [node name="Hell" parent="." instance=ExtResource("1_ig7tw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7016687, 4.8881845, 1.7920055)
 jump_speed = 5.0
-jump_height = 10.0
+jump_height = 0.5
+jump_strenght = 10.0
 jump_friction_on_air = 0.82
 sprint_speed = 5.0
 vel_base_speed = 6.0
@@ -67,3 +73,31 @@ vel_slow = 0.93
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.7722238, 0.6353507, 0, -0.6353507, 0.7722238, 7.325832, 6.5584116, 6.488556)
+
+[node name="ResetPos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.044083, 13.390375, 5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.799561, 11, 5.1123657)
+use_collision = true
+size = Vector3(4.599121, 1, 3.9405518)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.925037, 10.902763, 5.011043)
+use_collision = true
+size = Vector3(4.599121, 1, 3.9405518)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.925037, 8.248201, 24.789375)
+use_collision = true
+size = Vector3(4.599121, 1, 3.9405518)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.71389, 14.127146, 10.467201)
+use_collision = true
+size = Vector3(0.6213379, 6.788086, 5.567932)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.059448, 13.121394, 15.583051)
+use_collision = true
+size = Vector3(0.6213379, 6.788086, 5.567932)

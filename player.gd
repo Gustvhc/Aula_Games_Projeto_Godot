@@ -7,7 +7,8 @@ class_name Player
 @export var jump_enabled: bool = true
 @export var jump_speed: float = 0
 @export var jump_height: float = 0
-@export var jump_wall_distance:float = 10
+@export var jump_strenght: float = 0
+@export var jump_wall_distance:float = 1
 @export_range(0,1) var jump_friction_on_air: float = 1
 @export_range(1,50) var jump_gravity: float = 1
 #@export_enum("A","B","C") var jump_type = "A"
@@ -41,6 +42,12 @@ var mouse_locked: bool = false
 @onready var ray_left = $RayLeft
 @onready var ray_right = $RayRight
 var wall_jump_vec: Vector3
+var current_wall: Node3D
+var last_wall: Node3D
+
+func _ready() -> void:
+	ray_left.target_position.z = -jump_wall_distance
+	ray_right.target_position.z = jump_wall_distance
 
 #https://www.youtube.com/watch?v=AW3rT-7J8ag
 #https://www.youtube.com/watch?v=ke5KpqcoiIU
@@ -49,10 +56,6 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_on_floor():
 		velocity+= get_gravity() * delta * jump_gravity
-		if Input.is_action_just_pressed("Jump"):
-			check_close_wall(delta)
-			velocity += wall_jump_vec * jump_height
-			#move_and_slide()
 	
 	if jump_enabled:
 		if Input.is_action_just_pressed(input_jump):
@@ -61,13 +64,14 @@ func _physics_process(delta: float) -> void:
 	if sprint_enabled and Input.is_action_pressed(input_sprint) and is_on_floor():
 		move_speed = vel_base_speed + sprint_speed
 	else:
-		move_speed = lerp(move_speed,vel_base_speed,0.1)
+		move_speed = lerp(move_speed,vel_base_speed,0.01)
 			
 	
 	
 	
 	move_and_slide()
-	
+
+#Mouse Controls
 func _unhandled_input(event: InputEvent) -> void:
 	if Globals.debug_mode:
 		if not mouse_locked:
@@ -75,18 +79,26 @@ func _unhandled_input(event: InputEvent) -> void:
 				lock_mouse()
 		else:
 			if event is InputEventMouseMotion:
-				self.rotation.z -= event.relative.y * mouse_sensitivity
+				if snapped(abs($Camera3D.rotation.x),0.1) > 1.5:
+					$Camera3D.rotation.x = lerp($Camera3D.rotation.x,sign($Camera3D.rotation.x) * 1.5,0.05)
+				else:
+					$Camera3D.rotation.x -= event.relative.y * mouse_sensitivity
+				
 				self.rotation.y -= event.relative.x * mouse_sensitivity
 			if Input.is_action_pressed("Escape"):
 				unlock_mouse()
 	
-	
-	
-
 
 func jump():
 	if is_on_floor():
 		velocity.y = jump_speed
+		last_wall = null
+	else:
+		if Input.is_action_just_pressed("Jump"):
+			check_close_wall()
+			if current_wall!=last_wall:
+				velocity += (wall_jump_vec) * jump_strenght
+				last_wall = current_wall
 
 #Para testes e menu de pause
 func lock_mouse():
@@ -98,23 +110,22 @@ func unlock_mouse():
 	mouse_locked = false
 
 #Based from Godot Docs
-func check_close_wall(delta: float):
+func check_close_wall():
+	var speed_and_height = Vector3(0,jump_height*(((abs(velocity.x)+abs(velocity.z))/2)*0.21),0)
 	
 	if ray_left.is_colliding() and ray_right.is_colliding():
 		return
 	
 	if ray_left.is_colliding():
-		print(ray_left.get_collision_normal())
-		wall_jump_vec = ray_left.get_collision_normal()
+		wall_jump_vec = ray_left.get_collision_normal() + speed_and_height
+		current_wall = ray_left.get_collider()
 		
 	if ray_right.is_colliding():
-		print(ray_right.get_collision_normal())
-		wall_jump_vec = ray_right.get_collision_normal()
+		wall_jump_vec = ray_right.get_collision_normal() + speed_and_height
+		current_wall = ray_right.get_collider()
 		
 	if not ray_left.is_colliding() and not ray_right.is_colliding():
 		wall_jump_vec = Vector3.ZERO
-	
-	pass
 	
 
 #https://www.youtube.com/watch?v=AW3rT-7J8ag

@@ -13,9 +13,6 @@ transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 script = ExtResource("1_xhfnw")
 body = NodePath("Body")
 
-[node name="Spawner" parent="." instance=ExtResource("2_kne1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.592266, 0.3586463, 0)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_0rwas")
 
@@ -24,6 +21,11 @@ mesh = SubResource("CapsuleMesh_0rwas")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.3711395e-09, 0, -0.1, 0, 0.1, 0, 0.1, 0, -4.3711395e-09, 0, 0.77336895, 0)
+
+[node name="Spawner" parent="Camera3D" node_paths=PackedStringArray("character") instance=ExtResource("2_kne1u")]
+transform = Transform3D(-4.3711395e-07, 0, 10, 0, 10, 0, -10, 0, -4.3711395e-07, 0.34276146, -0.9056921, -1.5964658)
+visibility_parent = NodePath("../../Body")
+character = NodePath("../..")
 
 [node name="RayLeft" type="RayCast3D" parent="."]
 target_position = Vector3(0, 0, -1)

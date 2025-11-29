@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckpl7kbo874f8"]
+
+[ext_resource type="PackedScene" uid="uid://cy40u8fygqerb" path="res://Weapon/ProjectileSpawner.tscn" id="1_3o4wt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_epr5s"]
+albedo_color = Color(1, 0.27316666, 0.110000014, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vonkd"]
+material = SubResource("StandardMaterial3D_epr5s")
+
+[sub_resource type="BoxMesh" id="BoxMesh_vso2s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fkela"]
+
+[node name="Enemy" type="CharacterBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vonkd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.67784, 0, 0)
+mesh = SubResource("BoxMesh_vso2s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_fkela")
+
+[node name="Spawner" parent="." node_paths=PackedStringArray("character") instance=ExtResource("1_3o4wt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8479001, 0, 0)
+character = NodePath("..")
